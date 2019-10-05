@@ -1,7 +1,8 @@
 """A module contains a set of API to work with console logger."""
+import functools
 import logging
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Callable, Union
 
 
 class LoggerError(Exception):
@@ -12,6 +13,12 @@ class LoggerError(Exception):
 
 class Logger(ABC):
     """The class represents an abstraction for some logger."""
+
+    NONSET: int
+    INFO: int
+    ERROR: int
+    WARNING: int
+    DEBUG: int
 
     @abstractmethod
     def info(self, message: str, *args: Any, **kwargs: Any) -> None:
@@ -77,6 +84,18 @@ class Logger(ABC):
         """
         pass
 
+    @abstractmethod
+    def set_level(self, level: Union[str, int]) -> None:
+        """Sets the logging level of this logger.
+
+        Args:
+            level: a level to be set. Level must be an `int` or an `str`.
+
+        Raises:
+            `LoggerError` if level parameter is invalid
+        """
+        pass
+
 
 class MainLogger(Logger):
     """The class represents main console logger."""
@@ -88,16 +107,37 @@ class MainLogger(Logger):
     DEBUG: int = logging.DEBUG
 
     def __init__(self, name: str) -> None:
-        self._logger: logging.Logger = logging.getLogger(name)
+        @functools.lru_cache()
+        def client() -> logging.Logger:
+            """Sets up main logger client.
+
+            Returns: a main logger
+            """
+            logger: logging.Logger = logging.getLogger(name)
+            handler: logging.Handler = logging.StreamHandler()
+            handler.setFormatter(
+                logging.Formatter(fmt="[%(asctime)s %(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+            )
+            logger.addHandler(handler)
+            logger.setLevel(logging.INFO)
+            return logger
+
+        self._logger: Callable[[], logging.Logger] = client
 
     def info(self, message: str, *args: Any, **kwargs: Any) -> None:
-        self._logger.info(message, *args, **kwargs)
+        self._logger().info(message, *args, **kwargs)
 
     def debug(self, message: str, *args: Any, **kwargs: Any) -> None:
-        self._logger.debug(message, *args, **kwargs)
+        self._logger().debug(message, *args, **kwargs)
 
     def warning(self, message: str, *args: Any, **kwargs: Any) -> None:
-        self._logger.warning(message, *args, **kwargs)
+        self._logger().warning(message, *args, **kwargs)
 
     def error(self, message: str, *args: Any, **kwargs: Any) -> None:
-        self._logger.error(message, *args, **kwargs)
+        self._logger().error(message, *args, **kwargs)
+
+    def set_level(self, level: Union[str, int]) -> None:
+        if isinstance(level, str) or isinstance(level, int):
+            self._logger().setLevel(level)
+        else:
+            raise LoggerError('Logging level must be an "int" or an "str"!')
