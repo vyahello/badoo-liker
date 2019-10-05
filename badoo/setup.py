@@ -41,7 +41,7 @@ class _Badoo:
         self._data: Dict[str, Any] = data
 
     def credentials(self) -> Credentials:
-        return Credentials(self._data["credentials"]["username"], self._data["credentials"]["password"])
+        return Credentials(self._data["credentials"]["login"], self._data["credentials"]["password"])
 
     def intro_message(self) -> str:
         return self._data["intro-massage"]

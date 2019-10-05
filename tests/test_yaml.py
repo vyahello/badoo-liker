@@ -11,7 +11,7 @@ def test_yaml_from_path_data(yaml_from_path: Yaml) -> None:
     assert yaml_from_path.data == {
         "setup": {
             "badoo": {
-                "credentials": {"password": "test-pass", "username": "test-user"},
+                "credentials": {"password": "test-pass", "login": "test-user"},
                 "intro-massage": "test-message",
             },
             "browser": {"grid-url": "test-grid"},
@@ -22,7 +22,7 @@ def test_yaml_from_path_data(yaml_from_path: Yaml) -> None:
 def test_yaml_from_path_section(yaml_from_path: Yaml) -> None:
     assert yaml_from_path.section("setup") == {
         "badoo": {
-            "credentials": {"password": "test-pass", "username": "test-user"},
+            "credentials": {"password": "test-pass", "login": "test-user"},
             "intro-massage": "test-message",
         },
         "browser": {"grid-url": "test-grid"},

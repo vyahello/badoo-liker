@@ -1,0 +1,14 @@
+# This file describes configuration setup for manipulation with badoo service.
+
+setup:
+  # Browser configuration
+  browser:
+    grid-url: http://localhost:9515
+  # Badoo configuration
+  badoo:
+    credentials:
+      # Login can be a username of mobile phone number
+      login: username
+      password: password
+    # Intro greeting message if mutual like is occurred
+    intro-massage: Hola! Como le va?

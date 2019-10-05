@@ -3,6 +3,6 @@ setup:
     grid-url: test-grid
   badoo:
     credentials:
-      username: test-user
+      login: test-user
       password: test-pass
     intro-massage: test-message
