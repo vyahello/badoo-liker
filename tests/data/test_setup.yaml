@@ -1,0 +1,8 @@
+setup:
+  browser:
+    grid-url: test-grid
+  badoo:
+    credentials:
+      username: test-user
+      password: test-pass
+    intro-massage: test-message
