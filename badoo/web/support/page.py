@@ -128,10 +128,7 @@ def open_url_with_automatic_login(
     if not is_url_loaded():
         try:
             open_url(browser, url, timeout=10)
-            if "401 Authorization Required" in browser.page_source:
-                login_action()
+            login_action()
         except TimeoutException:
             if not is_url_loaded():
                 login_action()
-    if not is_url_loaded():
-        open_url(browser, url)
