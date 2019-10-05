@@ -27,7 +27,6 @@ class Browser:
     def __init__(self, settings: BrowserSettings) -> None:
         @functools.lru_cache()
         def client() -> Remote:
-            _logger.info("Starting a 'chrome' session. Connect to: %s", settings.grid_url())
             options: ChromeOptions = ChromeOptions()
             options.add_argument("--start-maximized")
             options.add_argument("--disable-dev-shm-usage")
@@ -44,7 +43,6 @@ class Browser:
 
         def close(cache) -> None:
             if cache.cache_info().currsize > 0:
-                _logger.info("Closing the browser session. Disconnect from %s", settings.grid_url())
                 cache().quit()
 
         weakref.finalize(self, close, self._client)

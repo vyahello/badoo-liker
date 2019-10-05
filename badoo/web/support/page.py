@@ -96,9 +96,7 @@ class LoginAction:
 
     def __call__(self, *args: Any, **kwargs: Any) -> None:
         if not self._page.loaded():
-            _logger.info("Navigate to login page.")
             self._page.open()
-        _logger.info("Make a WEB login.")
         self._page.login(self._credentials.username, self._credentials.password)
         for iteration in range(1, 601):
             if self._page.loaded():
@@ -109,7 +107,6 @@ class LoginAction:
                 time.sleep(1)
                 _logger.debug("Login process still in progress. Waiting time is %s second(s)", iteration)
                 continue
-            _logger.info("Login process is completed after %s second(s).", iteration)
             break
         else:
             raise RuntimeError(

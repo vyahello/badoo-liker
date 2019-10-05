@@ -57,13 +57,13 @@ class BadooEncountersPage(Page):
     def like(self) -> None:
         Element.by_class(self._browser, "profile-action--yes").click()
         try:
-            Element.by_class(self._browser, "js-chrome-pushes-deny").wait_for_visibility(2).click()
+            Element.by_class(self._browser, "js-chrome-pushes-deny").wait_for_visibility(1).click()
         except TimeoutException:
             pass
 
-    def is_mutual(self) -> bool:
+    def is_mutual_like(self) -> bool:
         try:
-            Element.by_class(self._browser, "ovl-match").wait_for_visibility(2)
+            self._match().wait_for_visibility(1)
             return True
         except TimeoutException:
             return False
@@ -71,4 +71,8 @@ class BadooEncountersPage(Page):
     def send_message(self, message: str) -> None:
         Element.by_class(self._browser, "js-message").set(message, clear=True)
         Element.by_class(self._browser, "js-send-message").click()
-        Element.by_class(self._browser, "js-gallery-next").wait_to_be_clickable(5)
+        self._match().wait_for_disappear(2)
+        Element.by_class(self._browser, "confirmation").wait_for_disappear(2)
+
+    def _match(self) -> Element:
+        return Element.by_class(self._browser, "ovl-match")
