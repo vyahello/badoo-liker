@@ -5,4 +5,5 @@ setup:
     credentials:
       login: test-user
       password: test-pass
+    likes: 5
     intro-massage: test-message

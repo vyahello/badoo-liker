@@ -54,5 +54,9 @@ def test_badoo_password(badoo: _Badoo) -> None:
     assert badoo.credentials().password == "test-pass"
 
 
+def test_badoo_likes(badoo: _Badoo) -> None:
+    assert badoo.likes() == 5
+
+
 def test_badoo_intro_message(badoo: _Badoo) -> None:
     assert badoo.intro_message() == "test-message"

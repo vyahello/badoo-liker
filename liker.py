@@ -1,13 +1,22 @@
 import sys
+from abc import ABC, abstractmethod
 from argparse import ArgumentParser
-from typing import Dict, Any
 from badoo.connections.web import Browser
 from badoo.services import Liker, BadooLiker
 from badoo.setup import Setup
 from badoo.yaml import YamlFromPath
 
 
-def _arguments() -> Dict[str, Any]:
+class Executor(ABC):
+    """Abstract executor interface."""
+
+    @abstractmethod
+    def run(self) -> None:
+        """Runs executor."""
+        pass
+
+
+def _setup() -> Setup:
     parser = ArgumentParser(description="This program allows to run badoo liker service.")
     parser.add_argument(
         "--setup",
@@ -17,16 +26,27 @@ def _arguments() -> Dict[str, Any]:
         required=True,
         default="data/setup.yaml",
     )
-    parser.add_argument("--likes", "-l", help="Number of likes (e.g `100`)", type=int, required=True)
     args, sys.argv[1:] = parser.parse_known_args(sys.argv[1:])
-    return vars(args)
+    return Setup(YamlFromPath(vars(args)["setup"]))
 
 
-def _run_badoo_liker(*, setup: Setup, number_of_likes: int) -> None:
-    liker: Liker = BadooLiker(Browser(setup.browser()), setup.badoo().credentials())
-    liker.start(number_of_likes, setup.badoo().intro_message())
+class LikerExecutor(Executor):
+    """Represents liker executor item."""
+
+    def __init__(self, setup: Setup) -> None:
+        self._message_to_send: str = setup.badoo().intro_message()
+        self._attempts: int = setup.badoo().likes()
+        self._liker: Liker = BadooLiker(Browser(setup.browser()), setup.badoo().credentials())
+
+    def run(self) -> None:
+        self._liker.start(self._attempts, self._message_to_send)
+
+
+def _run_badoo_liker(setup: Setup) -> None:
+    """Runs badoo liker."""
+    executor: LikerExecutor = LikerExecutor(setup)
+    executor.run()
 
 
 if __name__ == "__main__":
-    _args = _arguments()
-    _run_badoo_liker(setup=Setup(YamlFromPath(_args["setup"])), number_of_likes=_args["likes"])
+    _run_badoo_liker(_setup())
