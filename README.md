@@ -13,6 +13,7 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 
 ## Table of contents
 - [Launch script](#launch-script)
+- [Schedule runner](#schedule-runner)
 - [Contributing](#contributing)
 
 ### Launch script
@@ -26,6 +27,15 @@ Then just run script from the root directory of the project:
 ```bash
 ~ python liker.py -h
 ~ python liker.py --config setup.yaml
+```
+
+### Schedule runner
+To be able to run script on schedule basis please configure `run-scheduler.sh` shell script with corresponding
+`pre-setup` configuration values in it.
+
+It will be run on a background and store output into `logs.txt` file:
+```bash
+~ ./run-scheduler.sh > logs.txt 2>&1 &
 ```
 
 ### Contributing
