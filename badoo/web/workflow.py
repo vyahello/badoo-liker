@@ -6,6 +6,12 @@ from badoo.web.support.element import WebElement, Element
 from badoo.web.support.page import LoginPage, Url, open_url, Page, LoginPath, open_url_with_automatic_login
 
 
+class BadooError(Exception):
+    """Represents custom badoo exception."""
+
+    pass
+
+
 class _BadooRequest(Enum):
     """Class represents enumeration for badoo items."""
 
@@ -57,7 +63,11 @@ class BadooEncountersPage(Page):
     def like(self) -> None:
         if self._is_blocker_visible():
             self._browser.refresh()
+
         WebElement.find(self._browser).by_class("profile-action--yes").click()
+
+        if self._is_out_of_votes():
+            raise BadooError("Sorry! You've hit the vote limit!")
 
         try:
             WebElement.find(self._browser).by_class("js-chrome-pushes-deny").wait_for_visibility(1).click()
@@ -83,5 +93,11 @@ class BadooEncountersPage(Page):
     def _is_blocker_visible(self) -> bool:
         try:
             return WebElement.find(self._browser).by_class("ovl").wait_for_visibility(1).is_displayed()
+        except TimeoutException:
+            return False
+
+    def _is_out_of_votes(self) -> bool:
+        try:
+            return WebElement.find(self._browser).by_class("ovl__content").wait_for_visibility(1).is_displayed()
         except TimeoutException:
             return False
