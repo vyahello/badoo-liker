@@ -49,4 +49,3 @@ class Browser:
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._client(), name)
-

@@ -1,1 +1,1 @@
-pytest_plugins = 'tests.plugins.data'
+pytest_plugins = "tests.plugins.data"

@@ -6,7 +6,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from badoo.connections.web import Browser
 from badoo.logger import Logger, MainLogger
 from badoo.setup import Credentials
-from badoo.web.support.element import Element
+from badoo.web.support.element import WebElement
 from badoo.web.support.wait import Wait
 
 _logger: Logger = MainLogger(__name__)
@@ -23,10 +23,6 @@ class Url:
     def matcher(self) -> str:
         """Returns a path of the URL."""
         return self._path
-
-    def host(self) -> str:
-        """Returns a domain name (host)."""
-        return self._host
 
     def __str__(self) -> str:
         return f"{self._protocol}://{self._host}/{self._path}"
@@ -53,7 +49,7 @@ def _is_page_not_reachable(browser: Browser) -> bool:
         browser: a current browser session
     """
     try:
-        return Element.by_class(browser, "neterror").is_displayed()
+        return WebElement.find(browser).by_class("neterror").is_displayed()
     except NoSuchElementException:
         return False
 
@@ -87,12 +83,12 @@ class LoginPageError(Exception):
     pass
 
 
-class LoginAction:
+class LoginPath:
     """A callable object which logins with a desired login page."""
 
     def __init__(self, login_page: LoginPage, credentials: Credentials) -> None:
-        self._page = login_page
-        self._credentials = credentials
+        self._page: LoginPage = login_page
+        self._credentials: Credentials = credentials
 
     def __call__(self, *args: Any, **kwargs: Any) -> None:
         if not self._page.loaded():
@@ -109,14 +105,14 @@ class LoginAction:
                 continue
             break
         else:
-            raise RuntimeError(
+            raise LoginPageError(
                 f"Unable to login using '{self._page.__class__.__name__}' class "
                 f"due to unexpected behavior of login functionally."
             )
 
 
 def open_url_with_automatic_login(
-    browser: Browser, url: Url, is_url_loaded: Callable[[], bool], login_action: LoginAction
+    browser: Browser, url: Url, is_url_loaded: Callable[[], bool], path: LoginPath
 ) -> None:
     """Open a given URL in the browser and perform login if required.
 
@@ -125,7 +121,7 @@ def open_url_with_automatic_login(
     if not is_url_loaded():
         try:
             open_url(browser, url, timeout=10)
-            login_action()
+            path()
         except TimeoutException:
             if not is_url_loaded():
-                login_action()
+                path()
