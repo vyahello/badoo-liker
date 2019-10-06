@@ -1,4 +1,6 @@
-# Badoo liker
+# Badoo liker 
+![Screenshot](image/like.png)
+
 This program allows user to set schedule liker for badoo dating service (https://badoo.com).
 It uses **python** and **selenium (pom)** to emulate user bahaviour. 
 
