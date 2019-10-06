@@ -7,8 +7,8 @@ class Credentials:
     """The class represents a credentials as an object."""
 
     def __init__(self, username: str, password: str) -> None:
-        self._username = username
-        self._password = password
+        self._username: str = username
+        self._password: str = password
 
     def __str__(self):
         return f'{self.__class__.__name__}[user = "{self.username}"; pass = "{self.password}]"'
@@ -42,6 +42,9 @@ class _Badoo:
 
     def credentials(self) -> Credentials:
         return Credentials(self._data["credentials"]["login"], self._data["credentials"]["password"])
+
+    def likes(self) -> int:
+        return self._data["likes"]
 
     def intro_message(self) -> str:
         return self._data["intro-massage"]
