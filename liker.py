@@ -19,12 +19,12 @@ class Executor(ABC):
 def _setup() -> Setup:
     parser = ArgumentParser(description="This program allows to run badoo liker service.")
     parser.add_argument(
-        "--setup",
-        "-s",
+        "--config",
+        "-c",
         help="Setup config file (e.g `config.yaml`)",
         type=str,
         required=True,
-        default="data/setup.yaml",
+        default="setup.yaml",
     )
     args, sys.argv[1:] = parser.parse_known_args(sys.argv[1:])
     return Setup(YamlFromPath(vars(args)["setup"]))

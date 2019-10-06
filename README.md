@@ -16,7 +16,7 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 - [Contributing](#contributing)
 
 ### Launch script
-Before execution please configure badoo data setup file (`data/setup.yaml`). 
+Before execution please configure badoo config setup file (`setup.yaml`). 
 For local execution you have to [download](https://chromedriver.chromium.org) & run `chromedriver` from the cli:
 ```bash
 ~ chromedriver
@@ -25,7 +25,7 @@ For local execution you have to [download](https://chromedriver.chromium.org) & 
 Then just run script from the root directory of the project:
 ```bash
 ~ python liker.py -h
-~ python liker.py --setup data/setup.yaml
+~ python liker.py --config setup.yaml
 ```
 
 ### Contributing
@@ -36,4 +36,5 @@ Then just run script from the root directory of the project:
   git config --local user.name "Volodymyr Yahello"
   git config --local user.email "vyahello@gmail.com"
   ```
-- `python3.7+` is required to run the code
+- `pip install -r requirements.txt` to install code dependencies
+- `pip install -r requirements-dev.txt` to install code assessment dependencies
