@@ -4,6 +4,13 @@
 This program allows user to set schedule liker for badoo dating service (https://badoo.com).
 It uses **python** and **selenium (pom)** to emulate user bahaviour. 
 
+> Tools
+> - `python 3.7+`
+> - `selenium`
+> - `.yaml` config setup
+> - `chromedriver`
+> - `pytest`
+
 ## Table of contents
 - [Launch script](#launch-script)
 - [Contributing](#contributing)
@@ -18,7 +25,7 @@ For local execution you have to [download](https://chromedriver.chromium.org) & 
 Then just run script from the root directory of the project:
 ```bash
 ~ python liker.py -h
-~ python liker.py --setup data/setup.yaml --likes 5
+~ python liker.py --setup data/setup.yaml
 ```
 
 ### Contributing
