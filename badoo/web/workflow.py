@@ -2,8 +2,8 @@ from enum import Enum
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from badoo.connections.web import Browser
 from badoo.setup import Credentials
-from badoo.web.support.element import Element
-from badoo.web.support.page import LoginPage, Url, open_url, Page, LoginAction, open_url_with_automatic_login
+from badoo.web.support.element import WebElement, Element
+from badoo.web.support.page import LoginPage, Url, open_url, Page, LoginPath, open_url_with_automatic_login
 
 
 class _BadooRequest(Enum):
@@ -29,13 +29,13 @@ class BadooLoginPage(LoginPage):
         return str(self._url) == self._browser.current_url
 
     def login(self, username: str, password: str) -> None:
-        Element.by_class(self._browser, "js-signin-login").set(username)
-        Element.by_class(self._browser, "js-signin-password").set(password)
-        Element.by_css(self._browser, "button[type='submit']").click()
+        WebElement.find(self._browser).by_class("js-signin-login").set(username)
+        WebElement.find(self._browser).by_class("js-signin-password").set(password)
+        WebElement.find(self._browser).by_css("button[type='submit']").click()
 
     def is_login_failed(self) -> bool:
         try:
-            return Element.by_class(self._browser, 'new-form__error').is_displayed()
+            return WebElement.find(self._browser).by_class("new-form__error").is_displayed()
         except NoSuchElementException:
             return False
 
@@ -46,7 +46,7 @@ class BadooEncountersPage(Page):
     def __init__(self, browser: Browser, credentials: Credentials) -> None:
         self._browser: Browser = browser
         self._url: Url = Url(f"{_BadooRequest.HOST}/encounters")
-        self._login: LoginAction = LoginAction(BadooLoginPage(browser), credentials)
+        self._login: LoginPath = LoginPath(BadooLoginPage(browser), credentials)
 
     def open(self) -> None:
         open_url_with_automatic_login(self._browser, self._url, self.loaded, self._login)
@@ -55,9 +55,12 @@ class BadooEncountersPage(Page):
         return str(self._url) in self._browser.current_url
 
     def like(self) -> None:
-        Element.by_class(self._browser, "profile-action--yes").click()
+        if self._is_blocker_visible():
+            self._browser.refresh()
+        WebElement.find(self._browser).by_class("profile-action--yes").click()
+
         try:
-            Element.by_class(self._browser, "js-chrome-pushes-deny").wait_for_visibility(1).click()
+            WebElement.find(self._browser).by_class("js-chrome-pushes-deny").wait_for_visibility(1).click()
         except TimeoutException:
             pass
 
@@ -69,10 +72,16 @@ class BadooEncountersPage(Page):
             return False
 
     def send_message(self, message: str) -> None:
-        Element.by_class(self._browser, "js-message").set(message, clear=True)
-        Element.by_class(self._browser, "js-send-message").click()
+        WebElement.find(self._browser).by_class("js-message").set(message, clear=True)
+        WebElement.find(self._browser).by_class("js-send-message").click()
         self._match().wait_for_disappear(2)
-        Element.by_class(self._browser, "confirmation").wait_for_disappear(2)
+        WebElement.find(self._browser).by_class("confirmation").wait_for_disappear(2)
 
     def _match(self) -> Element:
-        return Element.by_class(self._browser, "ovl-match")
+        return WebElement.find(self._browser).by_class("ovl-match")
+
+    def _is_blocker_visible(self) -> bool:
+        try:
+            return WebElement.find(self._browser).by_class("ovl").wait_for_visibility(1).is_displayed()
+        except TimeoutException:
+            return False
