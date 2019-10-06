@@ -10,6 +10,7 @@ setup:
       # Login can be a username of mobile phone number
       login: username
       password: password
+    # Amount of likes to be applied
     likes: 5
     # Intro greeting message if mutual like is occurred
     intro-massage: Hola! Como le va?

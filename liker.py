@@ -17,17 +17,12 @@ class Executor(ABC):
 
 
 def _setup() -> Setup:
-    parser = ArgumentParser(description="This program allows to run badoo liker service.")
+    parser: ArgumentParser = ArgumentParser(description="This program allows to run badoo liker service.")
     parser.add_argument(
-        "--setup",
-        "-s",
-        help="Setup config file (e.g `config.yaml`)",
-        type=str,
-        required=True,
-        default="data/setup.yaml",
+        "--config", "-c", help="Setup badoo config file (e.g `setup.yaml`)", type=str, default="setup.yaml"
     )
     args, sys.argv[1:] = parser.parse_known_args(sys.argv[1:])
-    return Setup(YamlFromPath(vars(args)["setup"]))
+    return Setup(YamlFromPath(vars(args)["config"]))
 
 
 class LikerExecutor(Executor):
@@ -44,7 +39,7 @@ class LikerExecutor(Executor):
 
 def _run_badoo_liker(setup: Setup) -> None:
     """Runs badoo liker."""
-    executor: LikerExecutor = LikerExecutor(setup)
+    executor: Executor = LikerExecutor(setup)
     executor.run()
 
 
