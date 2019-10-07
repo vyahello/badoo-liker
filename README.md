@@ -29,6 +29,12 @@ Then just run script from the root directory of the project:
 ~ python liker.py --config setup.yaml
 ```
 
+You'll get next output:
+```bash
+[2019-10-07 22:11:39 INFO] Operating 25 badoo like attempts, in progress ...
+[2019-10-07 22:13:11 INFO] 25 badoo like attempts were successfully completed, please check your messages!
+```
+
 ### Schedule runner
 To be able to run script on schedule basis please configure `run-scheduler.sh` shell script with corresponding
 `pre-setup` configuration values in it.
