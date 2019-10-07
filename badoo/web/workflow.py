@@ -1,3 +1,4 @@
+import time
 from enum import Enum
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from badoo.connections.web import Browser
@@ -87,14 +88,14 @@ class BadooEncountersPage(Page):
         self._match().wait_for_disappear(2)
         WebElement.find(self._browser).by_class("confirmation").wait_for_disappear(2)
 
-    def _match(self) -> Element:
-        return WebElement.find(self._browser).by_class("ovl-match")
-
     def _is_blocker_visible(self) -> bool:
         try:
             return WebElement.find(self._browser).by_class("ovl").wait_for_visibility(1).is_displayed()
         except TimeoutException:
             return False
+
+    def _match(self) -> Element:
+        return WebElement.find(self._browser).by_class("ovl-match")
 
     def _is_out_of_votes(self) -> bool:
         try:

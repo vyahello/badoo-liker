@@ -29,4 +29,4 @@ class BadooLiker(Liker):
             self._badoo_page.like()
             if self._badoo_page.is_mutual_like():
                 self._badoo_page.send_message(mutual_message)
-        _logger.info("%s badoo like attempts were successfully completed, please check you messages!", amount)
+        _logger.info("%s badoo like attempts were successfully completed, please check your messages!", amount)
