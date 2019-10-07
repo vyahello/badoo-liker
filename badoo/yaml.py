@@ -41,7 +41,7 @@ class YamlFromPath(Yaml):
 
     def _parsed_yaml(self) -> Yaml:
         if not self._data:
-            with open(self._file) as file:
+            with open(self._file, encoding="utf-8") as file:
                 self._data.append(_YamlFromStream(file))
         return self._data[0]
 
