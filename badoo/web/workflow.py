@@ -62,18 +62,16 @@ class BadooEncountersPage(Page):
         return str(self._url) in self._browser.current_url
 
     def like(self) -> None:
-        if self._is_blocker_visible():
-            self._browser.refresh()
-
         WebElement.find(self._browser).by_class("profile-action--yes").click()
-
-        if self._is_out_of_votes():
-            raise BadooError("Sorry! You've hit the vote limit!")
 
         try:
             WebElement.find(self._browser).by_class("js-chrome-pushes-deny").wait_for_visibility(1).click()
+            WebElement.find(self._browser).by_class("ovl__content").wait_for_disappear(5)
         except TimeoutException:
             pass
+
+        if self._is_out_of_votes():
+            raise BadooError("Sorry! You've hit the vote limit!")
 
     def is_mutual_like(self) -> bool:
         try:
@@ -99,6 +97,6 @@ class BadooEncountersPage(Page):
 
     def _is_out_of_votes(self) -> bool:
         try:
-            return WebElement.find(self._browser).by_class("ovl__content").wait_for_visibility(1).is_displayed()
+            return WebElement.find(self._browser).by_class("ovl__hint").wait_for_visibility(1).is_displayed()
         except TimeoutException:
             return False
