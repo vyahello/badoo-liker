@@ -3,6 +3,7 @@
 setup:
   # Browser configuration
   browser:
+    # "http://localhost:9515" for local run and "http://localhost:4444/wd/hub" via docker
     grid-url: http://localhost:9515
   # Badoo configuration
   badoo:

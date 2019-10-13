@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # pre-setup configuration, please set it to desired values
-CONFIG="setup.yaml"
+CONFIG="template-setup.yaml"
 DELAY_BETWEEN_RUN=1800
 LOGS="logs.txt"
 
@@ -13,7 +13,7 @@ function helper {
     Please use next commands:
       - 'counted-executor' to run executor certain amount of time e.g '100'
       - 'infinite-executor' to run executor infinite period of time (it will run until script is crashed)
-      - 'infinite-executor-background' to executor infinitely in a background. Logs will be saved in '${LOGS}' file automatically
+      - 'infinite-executor-background' to run executor infinitely in a background. Logs will be saved in '${LOGS}' file automatically
 
     Please see '${LOGS}' file for additional logs info.
 HELP

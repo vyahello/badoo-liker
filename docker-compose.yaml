@@ -1,0 +1,39 @@
+version: "3.7"
+
+x-badoo-liker:
+  &badoo-liker
+  image: vyahello/badoo-liker:0.2.0
+  volumes:
+    - ./:/code
+  depends_on:
+    - chrome-node
+  network_mode: host
+
+services:
+  help:
+    <<: *badoo-liker
+    container_name: badoo-help
+    command: run-liker --help
+
+  scheduler:
+    <<: *badoo-liker
+    container_name: badoo-scheduler
+    command: run-liker --config setup.yaml
+
+  selenium-hub:
+    image: selenium/hub
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+
+  chrome-node:
+    image: selenium/node-chrome
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=selenium-hub
+      - HUB_PORT_4444_TCP_PORT=4444
+      - PULL_SELENIUM_IMAGE=true
+      - JAVA_OPTS=-Xmx1024m
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
