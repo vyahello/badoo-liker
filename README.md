@@ -39,10 +39,19 @@ You'll get next output:
 To be able to run script on schedule basis please configure `run-scheduler.sh` shell script with corresponding
 `pre-setup` configuration values in it.
 
-It will be run on a background and store output into `logs.txt` file:
 ```bash
-~ ./run-scheduler.sh > logs.txt 2>&1 &
+~ ./run-scheduler.sh -h
+This script provides badoo executor scheduler. Delay is set to "1800" seconds between run.
+
+Please use next commands:
+
+  - 'counted-executor' to run executor certain amount of time e.g '100'
+  - 'infinite-executor' to run executor infinite period of time (it will run until script is crashed)
+  - 'infinite-executor-background' to executor infinitely in a background. Logs will be saved in 'logs.txt' file automatically
+
+Please see 'logs.txt' file for additional logs info.
 ```
+
 
 ### Contributing
 
