@@ -6,7 +6,7 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 
 > Tools
 > - `python 3.7+`
-> - `selenium`
+> - `selenium-grid`
 > - `.yaml` config setup
 > - `chromedriver`
 > - `pytest`
@@ -20,10 +20,12 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 
 ### Launch script
 Before execution please configure badoo config setup file (`setup.yaml`). 
-For local execution you have to [download](https://chromedriver.chromium.org) & run `chromedriver` from the cli:
+For local execution you have to [download](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run `chromedriver` from the cli:
 ```bash
 ~ chromedriver
 ```
+We use [selenium-grid](https://www.vinsguru.com/selenium-grid-setup-using-docker) to make it compatible with different OS/browsers (in future)
+mostly using `docker-compose.yaml` file.
 
 Then just run script from the root directory of the project:
 ```bash
@@ -56,7 +58,7 @@ Please see 'logs.txt' file for additional logs info.
 ```
 
 #### Docker execution
-There are two `docker images` to maintain execution via docker:
+There are two `docker images` to maintain execution via docker: 
 1. Base image
 Base image contains all `core` required packages/dependencies for fresh code install. 
 To build and push image please use command below:
@@ -78,18 +80,48 @@ To run `man` of badoo liker via docker, please start command below (<your versio
 ~ docker run vyahello/badoo-liker:<your version here>
 ```
 
-To get latest `.yaml` config file, please start command below:
+To get latest `.yaml` config file, please start command below (<your version here>> may be some `0.1.0` version):
 ```bash
 ~ docker run vyahello/badoo-liker:<your version here> get-setup > config.yaml
 ``` 
 
-To run badoo liker, please follow command below (<your .yaml setup file> may be some `config.yaml` file generated above):
+To run badoo liker help, please follow command below (<your version here>> may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:0.1.0 run-liker --config <your .yaml setup file>
+~ docker run vyahello/badoo-liker:<your version here> run-liker -h
+```
+
+Please use `docker-compose.yaml` file to run badoo liker script in docker with:
+```bash
+~ docker-compose up <service> # run some service e.g 'help' or 'scheduler'
+~ docker compose up -d <service>  # run in background
+~ docker logs <service>  # see recent logs
+~ docker compose down  # shutdown badoo runner
+```
+For instance below is a sample of execution via `docker-compose`:
+```bash
+~ docker-compose up scheduler
+Creating network "badoo-liker_default" with the default driver
+Creating selenium-hub ... done
+Creating badoo-liker_chrome-node_1 ... done
+Creating badoo-scheduler           ... done
+Attaching to badoo-scheduler
+badoo-scheduler | Still waiting for the Grid ...
+badoo-scheduler | Still waiting for the Grid ...
+badoo-scheduler | [2019-10-13 14:37:06 INFO] Operating 15 badoo like attempts, in progress ...
+badoo-scheduler | [2019-10-13 14:38:21 INFO] 15 badoo like attempts were successfully completed, please check your messages!
+badoo-scheduler exited with code 0
 ```
 ```bash
-~ docker run -it -v $(pwd):/code vyahello/badoo-liker:0.1.0 run-liker --config config.yaml
+~ docker-compose down
+Stopping badoo-liker_chrome-node_1 ... done
+Stopping selenium-hub              ... done
+Removing badoo-scheduler           ... done
+Removing badoo-liker_chrome-node_1 ... done
+Removing selenium-hub              ... done
+Removing network badoo-liker_default
 ```
+
+Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
 
 ### Contributing
 
