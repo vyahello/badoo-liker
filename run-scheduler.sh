@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # pre-setup configuration, please set it to desired values
-CONFIG="setup.yaml"
+CONFIG="template-setup.yaml"
 DELAY_BETWEEN_RUN=1800
 LOGS="logs.txt"
 

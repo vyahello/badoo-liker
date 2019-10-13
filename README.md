@@ -59,17 +59,37 @@ Please see 'logs.txt' file for additional logs info.
 There are two `docker images` to maintain execution via docker:
 1. Base image
 Base image contains all `core` required packages/dependencies for fresh code install. 
-To build image please use command below:
+To build and push image please use command below:
 ```bash
-~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> -f Dockerfile.base .
-```
-Then push it into docker artifactory:
-```bash
-~  docker push vyahello/badoo-liker-base:<new version here>
+~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> -f Dockerfile.base . && \
+  docker push vyahello/badoo-liker-base:<new version here>
 ```
 
 2. Main image
+This image is aimed to run badoo-liker from docker.
+To build and push image please use command below (<new version here>> may be some `0.1.0` version):
+```bash
+~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> . && \
+  docker push vyahello/badoo-liker:<new version here>
+```
 
+To run `man` of badoo liker via docker, please start command below (<your version here>> may be some `0.1.0` version):
+```bash
+~ docker run vyahello/badoo-liker:<your version here>
+```
+
+To get latest `.yaml` config file, please start command below:
+```bash
+~ docker run vyahello/badoo-liker:<your version here> get-setup > config.yaml
+``` 
+
+To run badoo liker, please follow command below (<your .yaml setup file> may be some `config.yaml` file generated above):
+```bash
+~ docker run vyahello/badoo-liker:0.1.0 run-liker --config <your .yaml setup file>
+```
+```bash
+~ docker run -it -v $(pwd):/code vyahello/badoo-liker:0.1.0 run-liker --config config.yaml
+```
 
 ### Contributing
 
