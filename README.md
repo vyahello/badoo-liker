@@ -14,6 +14,8 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 ## Table of contents
 - [Launch script](#launch-script)
 - [Schedule runner](#schedule-runner)
+  - [Local/remote execution](#localremote-execution)
+  - [Docker execution](#docker-execution)
 - [Contributing](#contributing)
 
 ### Launch script
@@ -36,6 +38,7 @@ You'll get next output:
 ```
 
 ### Schedule runner
+#### Local/remote execution
 To be able to run script on schedule basis please configure `run-scheduler.sh` shell script with corresponding
 `pre-setup` configuration values in it.
 
@@ -51,6 +54,21 @@ Please use next commands:
 
 Please see 'logs.txt' file for additional logs info.
 ```
+
+#### Docker execution
+There are two `docker images` to maintain execution via docker:
+1. Base image
+Base image contains all `core` required packages/dependencies for fresh code install. 
+To build image please use command below:
+```bash
+~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> -f Dockerfile.base .
+```
+Then push it into docker artifactory:
+```bash
+~  docker push vyahello/badoo-liker-base:<new version here>
+```
+
+2. Main image
 
 
 ### Contributing

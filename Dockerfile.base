@@ -1,0 +1,7 @@
+FROM python:3.7.4-slim
+LABEL version=0.1.0 \
+      metadata="The base image for badoo-liker code" \
+      maintainer="Volodymyr Yahello <vyahello@gmail.com>"
+RUN pip install --no-cache-dir --upgrade pip && \
+    apt-get update && \
+    apt-get autoclean -y
