@@ -72,7 +72,7 @@ To build and push image please use command below:
 This image is aimed to run badoo-liker from docker.
 To build and push image please use command below (<new version here> may be some `0.1.0` version):
 ```bash
-~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> . && \
+~ docker build --no-cache -t vyahello/badoo-liker:<new version here> . && \
   docker push vyahello/badoo-liker:<new version here>
 ```
 
@@ -120,6 +120,11 @@ Removing badoo-scheduler           ... done
 Removing badoo-liker_chrome-node_1 ... done
 Removing selenium-hub              ... done
 Removing network badoo-liker_default
+```
+
+You can run `infinite scheduler` with command below:
+```bash
+~ docker-compose up infinite-scheduler
 ```
 
 Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.

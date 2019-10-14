@@ -15,10 +15,15 @@ services:
     container_name: badoo-help
     command: run-liker --help
 
-  scheduler:
+  single-scheduler:
     <<: *badoo-liker
-    container_name: badoo-scheduler
+    container_name: badoo-single-scheduler
     command: run-liker --config setup.yaml
+
+  infinite-scheduler:
+    <<: *badoo-liker
+    container_name: badoo-infinite-scheduler
+    command: run-liker --infinite --config setup.yaml
 
   selenium-hub:
     image: selenium/hub
