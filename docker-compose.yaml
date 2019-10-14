@@ -2,7 +2,7 @@ version: "3.7"
 
 x-badoo-liker:
   &badoo-liker
-  image: vyahello/badoo-liker:0.2.0
+  image: vyahello/badoo-liker:0.3.0
   volumes:
     - ./:/code
   depends_on:
@@ -15,10 +15,15 @@ services:
     container_name: badoo-help
     command: run-liker --help
 
-  scheduler:
+  single-scheduler:
     <<: *badoo-liker
-    container_name: badoo-scheduler
+    container_name: badoo-single-scheduler
     command: run-liker --config setup.yaml
+
+  infinite-scheduler:
+    <<: *badoo-liker
+    container_name: badoo-infinite-scheduler
+    command: run-liker --infinite --config setup.yaml
 
   selenium-hub:
     image: selenium/hub

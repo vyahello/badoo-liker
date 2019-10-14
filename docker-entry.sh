@@ -2,6 +2,8 @@
 
 IMAGE_REPO="vyahello/badoo-liker"
 CONFIG="template-setup.yaml"
+DELAY_BETWEEN_RUN=1800
+
 
 function helper {
     cat <<HELP
@@ -23,16 +25,43 @@ function get-setup {
 }
 
 
+function run-single-liker {
+    python liker.py $@
+}
+
+
+function run-infinite-liker {
+    iteration=0
+    while true; do
+        echo "Running #$iteration badoo iteration ..."
+        run-single-liker $@
+        sleep ${DELAY_BETWEEN_RUN}
+        let iteration+=1
+    done
+}
+
+
+function check-grid-is-ready {
+    while ! curl -sSL "http://localhost:4444/wd/hub/status" 2>&1 \
+    | jq -r '.value.ready' 2>&1 | grep "true" >/dev/null; do
+        echo 'Still waiting for the Grid ...'
+        sleep 1
+    done
+}
+
+
 function run-liker {
     if [[ -z "$@" ]];
         then python liker.py --help
     else
-        while ! curl -sSL "http://localhost:4444/wd/hub/status" 2>&1 \
-         | jq -r '.value.ready' 2>&1 | grep "true" >/dev/null; do
-             echo 'Still waiting for the Grid ...'
-             sleep 1
-        done
-        python liker.py $@
+        check-grid-is-ready
+
+        if [[ "$1" == "--infinite" ]] || [[ "$1" == "-i" ]]; then
+            run-infinite-liker $@
+        else
+            run-liker $@
+        fi
+
     fi
 }
 
