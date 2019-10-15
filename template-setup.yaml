@@ -5,6 +5,8 @@ setup:
   browser:
     # "http://localhost:9515" for local run and "http://localhost:4444/wd/hub" via docker
     grid-url: http://localhost:9515
+    # proxy settings e.g "10.0.0.300:1234"
+    proxy: ""
   # Badoo configuration
   badoo:
     credentials:

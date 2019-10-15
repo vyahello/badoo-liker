@@ -33,6 +33,9 @@ class _Browser(BrowserSettings):
     def grid_url(self) -> str:
         return self._data["grid-url"]
 
+    def proxy(self) -> str:
+        return self._data["proxy"]
+
 
 class _Badoo:
     """Represents badoo settings defined in setup file."""

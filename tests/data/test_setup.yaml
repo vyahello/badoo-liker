@@ -1,6 +1,7 @@
 setup:
   browser:
     grid-url: test-grid
+    proxy: "1.1.1.1:1234"
   badoo:
     credentials:
       login: test-user
