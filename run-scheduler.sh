@@ -2,7 +2,7 @@
 
 # pre-setup configuration, please set it to desired values
 CONFIG="template-setup.yaml"
-DELAY_BETWEEN_RUN=1800
+DELAY_BETWEEN_RUN=3600
 LOGS="logs.txt"
 
 
@@ -22,6 +22,7 @@ HELP
 
 function run-delayed-liker {
    python liker.py --config ${CONFIG}
+   echo "Waiting ${DELAY_BETWEEN_RUN} second(s) for next iteration ..."
    sleep ${DELAY_BETWEEN_RUN}
 }
 

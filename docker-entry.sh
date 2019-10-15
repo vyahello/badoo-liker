@@ -35,6 +35,7 @@ function run-infinite-liker {
     while true; do
         echo "Running #$iteration badoo iteration ..."
         run-single-liker $@
+        echo "Waiting ${DELAY_BETWEEN_RUN} second(s) for next iteration ..."
         sleep ${DELAY_BETWEEN_RUN}
         let iteration+=1
     done
