@@ -46,6 +46,10 @@ def test_browser_grid(browser: _Browser) -> None:
     assert browser.grid_url() == "test-grid"
 
 
+def test_browser_proxy(browser: _Browser) -> None:
+    assert browser.proxy() == "1.1.1.1:1234"
+
+
 def test_badoo_username(badoo: _Badoo) -> None:
     assert badoo.credentials().username == "test-user"
 

@@ -17,6 +17,11 @@ class BrowserSettings(ABC):
         """Return an url to a Selenium server e.g `http://localhost:9515`."""
         pass
 
+    @abstractmethod
+    def proxy(self) -> str:
+        """Returns browser proxy settings."""
+        pass
+
 
 class Browser:
     """The class is a proxy for ``Remote`` object.
@@ -29,8 +34,7 @@ class Browser:
         def client() -> Remote:
             options: ChromeOptions = ChromeOptions()
             options.add_argument("--start-maximized")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--no-sandbox")
+            options.add_argument(f"--proxy-server={settings.proxy()}")
             capabilities: Dict[str, Any] = options.to_capabilities()
             capabilities["idleTimeout"] = 10800
             return Remote(

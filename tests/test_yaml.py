@@ -15,7 +15,7 @@ def test_yaml_from_path_data(yaml_from_path: Yaml) -> None:
                 "likes": 5,
                 "intro-massage": "test-message",
             },
-            "browser": {"grid-url": "test-grid"},
+            "browser": {"grid-url": "test-grid", "proxy": "1.1.1.1:1234"},
         }
     }
 
@@ -27,5 +27,5 @@ def test_yaml_from_path_section(yaml_from_path: Yaml) -> None:
             "likes": 5,
             "intro-massage": "test-message",
         },
-        "browser": {"grid-url": "test-grid"},
+        "browser": {"grid-url": "test-grid", "proxy": "1.1.1.1:1234"},
     }
