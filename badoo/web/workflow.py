@@ -61,7 +61,7 @@ class BadooEncountersPage(Page):
         return str(self._url) in self._browser.current_url
 
     def like(self) -> None:
-        WebElement.find(self._browser).by_class("profile-action--yes").click()
+        WebElement.find(self._browser).by_class("profile-action--color-yes").click()
 
         try:
             WebElement.find(self._browser).by_class("js-chrome-pushes-deny").wait_for_visibility(2).click()
