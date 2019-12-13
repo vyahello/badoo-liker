@@ -1,5 +1,5 @@
 # Badoo liker 
-![Screenshot](image/like.png)
+![Screenshot](image/badoo.png)
 
 This program allows user to set schedule liker for badoo dating service (https://badoo.com).
 It uses **python** and **selenium (pom)** to emulate user bahaviour. 
@@ -13,12 +13,17 @@ It uses **python** and **selenium (pom)** to emulate user bahaviour.
 > - `pytest`
 
 ## Table of contents
-- [Launch script](#launch-script)
-- [Schedule runner](#schedule-runner)
-  - [Local/remote execution](#localremote-execution)
-  - [Docker execution](#docker-execution)
-- [Contributing](#contributing)
+- [Usage](#usage)
+  - [Launch script](#launch-script)
+  - [Schedule runner](#schedule-runner)
+    - [Local/remote execution](#localremote-execution)
+    - [Docker execution](#docker-execution)
+- [Development notes](#development-notes)
+  - [Run unittests](#run-unittests)
+  - [Meta](#meta)
+  - [Contributing](#contributing)
 
+## Usage
 ### Launch script
 Before execution please configure badoo config setup file (`setup.yaml`). 
 For local execution you have to [download](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run `chromedriver` from the cli:
@@ -129,13 +134,23 @@ You can run `infinite scheduler` with command below:
 
 Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
 
-### Contributing
+## Development notes
 
-- clone the repository
-- configure Git for the first time after cloning with your name and email
-  ```bash
-  git config --local user.name "Volodymyr Yahello"
-  git config --local user.email "vyahello@gmail.com"
-  ```
-- `pip install -r requirements.txt` to install code dependencies
-- `pip install -r requirements-dev.txt` to install code assessment dependencies
+### Run unittests
+Please execute next command from the root directory of a project
+```bash
+~ pytest
+```
+
+### Meta
+Author – Volodymyr Yahello vyahello@gmail.com
+
+You can reach out me at:
+* [https://github.com/vyahello](https://github.com/vyahello)
+* [https://www.linkedin.com/in/volodymyr-yahello-821746127](https://www.linkedin.com/in/volodymyr-yahello-821746127)
+
+### Contributing
+1. clone the repository
+2. configure Git for the first time after cloning with your `name` and `email`
+3. `pip install -r requirements.txt` to install all project dependencies
+4. `pip install -r requirements-dev.txt` to install all development dependencies
