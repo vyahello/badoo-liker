@@ -1,13 +1,12 @@
-import sys
 from abc import ABC, abstractmethod
-from argparse import ArgumentParser
+import click
 from badoo.connections.web import Browser
 from badoo.services import Liker, BadooLiker
 from badoo.setup import Setup
 from badoo.yaml import YamlFromPath
 
 
-class Executor(ABC):
+class _Executor(ABC):
     """Abstract executor interface."""
 
     @abstractmethod
@@ -16,16 +15,7 @@ class Executor(ABC):
         pass
 
 
-def _setup() -> Setup:
-    parser: ArgumentParser = ArgumentParser(description="This program allows to run badoo liker service.")
-    parser.add_argument(
-        "--config", "-c", help="Setup badoo config file (e.g `setup.yaml`)", type=str, default="setup.yaml"
-    )
-    args, sys.argv[1:] = parser.parse_known_args(sys.argv[1:])
-    return Setup(YamlFromPath(vars(args)["config"]))
-
-
-class LikerExecutor(Executor):
+class _LikerExecutor(_Executor):
     """Represents liker executor item."""
 
     def __init__(self, setup: Setup) -> None:
@@ -37,11 +27,13 @@ class LikerExecutor(Executor):
         self._liker.start(self._attempts, self._message_to_send)
 
 
-def _run_badoo_liker(setup: Setup) -> None:
-    """Runs badoo liker."""
-    executor: Executor = LikerExecutor(setup)
+@click.command()
+@click.option("--config", "-c", help="Setup badoo config file (e.g `setup.yaml`)", default="setup.yaml")
+def _run_badoo_liker(config: str) -> None:
+    """The program allows to run badoo liker service."""
+    executor: _Executor = _LikerExecutor(Setup(YamlFromPath(config)))
     executor.run()
 
 
 if __name__ == "__main__":
-    _run_badoo_liker(_setup())
+    _run_badoo_liker()
