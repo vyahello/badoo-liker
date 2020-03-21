@@ -29,6 +29,9 @@
   - [Contributing](#contributing)
 
 ## Usage
+
+![Demo](demo.gif)
+
 ### Source code
 Before execution please configure badoo config setup file [template-setup.yaml](template-setup.yaml). 
 For local execution you have to download [chromedriver](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run it from the cli:
