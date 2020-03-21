@@ -1,35 +1,37 @@
-# Badoo liker 
-![Screenshot](image/badoo.png)
+![Screenshot](logo.png)
 
+# Badoo liker
+
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
-This program allows user to set schedule liker for badoo dating service (https://badoo.com).
-It uses **python** and **selenium (pom)** to emulate user bahaviour. 
+> This program allows user to set schedule liker for badoo dating service (https://badoo.com).
+>
+> It uses **python** and **selenium (pom)** to emulate user bahaviour. 
 
-> Tools
-> - `python 3.7+`
-> - `selenium-grid`
-> - `.yaml` config setup
-> - `docker (>=18.0)` and `docker-compose (>= 1.22)`
-> - `chromedriver`
-> - `pytest`
+**Tools**
+- `python 3.7+`
+- `selenium-grid`
+- `.yaml` config setup
+- `docker (>=18.0)` and `docker-compose (>= 1.22)`
+- `chromedriver`
+- `pytest`
 
 ## Table of contents
 - [Usage](#usage)
-  - [Launch script](#launch-script)
-  - [Schedule runner](#schedule-runner)
-    - [Local/remote execution](#localremote-execution)
-    - [Docker execution](#docker-execution)
+  - [Source code](#source-code)
+  - [Docker](#docker)
 - [Development notes](#development-notes)
   - [Run unittests](#run-unittests)
   - [Meta](#meta)
   - [Contributing](#contributing)
 
 ## Usage
-### Launch script
-Before execution please configure badoo config setup file (`setup.yaml`). 
-For local execution you have to [download](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run `chromedriver` from the cli:
+### Source code
+Before execution please configure badoo config setup file [template-setup.yaml](template-setup.yaml). 
+For local execution you have to download [chromedriver](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run it from the cli:
 ```bash
 ~ chromedriver
 ```
@@ -38,8 +40,15 @@ mostly using `docker-compose.yaml` file.
 
 Then just run script from the root directory of the project:
 ```bash
-~ python liker.py -h
-~ python liker.py --config setup.yaml
+~ python liker.py --help
+usage: liker.py [-h] [--config CONFIG]
+
+This program allows to run badoo liker service.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config CONFIG, -c CONFIG
+                        Setup badoo config file (e.g `setup.yaml`)
 ```
 
 You'll get next output:
@@ -47,10 +56,11 @@ You'll get next output:
 [2019-10-07 22:11:39 INFO] Operating 25 badoo like attempts, in progress ...
 [2019-10-07 22:13:11 INFO] 25 badoo like attempts were successfully completed, please check your messages!
 ```
+**[⬆ back to top](#table-of-contents)**
 
-### Schedule runner
-#### Local/remote execution
-To be able to run script on schedule basis please configure `run-scheduler.sh` shell script with corresponding
+**Scheduler**
+
+To be able to run script on schedule basis please configure [run-scheduler.sh](run-scheduler.sh) shell script with corresponding
 `pre-setup` configuration values in it.
 
 ```bash
@@ -61,14 +71,17 @@ Please use next commands:
 
   - 'counted-executor' to run executor certain amount of time e.g '100'
   - 'infinite-executor' to run executor infinite period of time (it will run until script is crashed)
-  - 'infinite-executor-background' to run executor infinitely in a background. Logs will be saved in 'logs.txt' file automatically
+  - 'infinite-executor-background' to run executor infinitely in a background. 
+     Logs will be saved in 'logs.txt' file automatically
 
 Please see 'logs.txt' file for additional logs info.
 ```
+**[⬆ back to top](#table-of-contents)**
 
-#### Docker execution
+### Docker
 There are two `docker images` to maintain execution via docker: 
-1. Base image
+1. **Base image**
+
 Base image contains all `core` required packages/dependencies for fresh code install. 
 To build and push image please use command below:
 ```bash
@@ -76,7 +89,8 @@ To build and push image please use command below:
   docker push vyahello/badoo-liker-base:<new version here>
 ```
 
-2. Main image
+2. **Main image**
+
 This image is aimed to run badoo-liker from docker.
 To build and push image please use command below (<new version here> may be some `0.1.0` version):
 ```bash
@@ -99,7 +113,7 @@ To run badoo liker help, please follow command below ('your version here' may be
 ~ docker run vyahello/badoo-liker:<your version here> run-liker -h
 ```
 
-Please use `docker-compose.yaml` file to run badoo liker script in docker with:
+Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
 ```bash
 ~ docker-compose up <service> # run some service e.g 'help' or 'scheduler'
 ~ docker compose up -d <service>  # run in background
@@ -137,6 +151,8 @@ You can run `infinite scheduler` with command below:
 
 Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Development notes
 
 ### Run unittests
@@ -146,9 +162,10 @@ Please execute next command from the root directory of a project
 ```
 
 ### Meta
-Author – Volodymyr Yahello vyahello@gmail.com
+Author – Volodymyr Yahello
 
 You can reach out me at:
+* [vyahello@gmail.com](vyahello@gmail.com)
 * [https://github.com/vyahello](https://github.com/vyahello)
 * [https://www.linkedin.com/in/volodymyr-yahello-821746127](https://www.linkedin.com/in/volodymyr-yahello-821746127)
 
