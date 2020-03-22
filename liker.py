@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 import click
+from uyaml.loader import YamlFromPath
 from badoo.connections.web import Browser
 from badoo.services import Liker, BadooLiker
 from badoo.setup import Setup
-from badoo.yaml import YamlFromPath
 
 
 class _Executor(ABC):

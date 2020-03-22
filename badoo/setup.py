@@ -1,6 +1,6 @@
 from typing import Dict, Any
+from uyaml.loader import Yaml
 from badoo.connections.web import BrowserSettings
-from badoo.yaml import Yaml
 
 
 class Credentials:
@@ -55,7 +55,7 @@ class _Badoo:
 
 class Setup:
     def __init__(self, yaml: Yaml) -> None:
-        self._data: Dict[str, Any] = yaml.section("setup")
+        self._data: Dict[str, Any] = yaml.section(name="setup")
 
     def browser(self) -> BrowserSettings:
         return _Browser(self._data["browser"])
