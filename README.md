@@ -43,7 +43,7 @@ mostly using `docker-compose.yaml` file.
 
 Then just run script from the root directory of the project:
 ```bash
-~ python liker.py --help
+python liker.py --help
 usage: liker.py [-h] [--config CONFIG]
 
 This program allows to run badoo liker service.
@@ -67,7 +67,8 @@ To be able to run script on schedule basis please configure [run-scheduler.sh](r
 `pre-setup` configuration values in it.
 
 ```bash
-~ ./run-scheduler.sh -h
+./run-scheduler.sh -h
+
 This script provides badoo executor scheduler. Delay is set to "1800" seconds between run.
 
 Please use next commands:
@@ -88,8 +89,8 @@ There are two `docker images` to maintain execution via docker:
 Base image contains all `core` required packages/dependencies for fresh code install. 
 To build and push image please use command below:
 ```bash
-~ docker build --no-cache -t vyahello/badoo-liker-base:<new version here> -f Dockerfile.base . && \
-  docker push vyahello/badoo-liker-base:<new version here>
+docker build --no-cache -t vyahello/badoo-liker-base:<new version here> -f Dockerfile.base . && \
+docker push vyahello/badoo-liker-base:<new version here>
 ```
 
 2. **Main image**
@@ -97,35 +98,36 @@ To build and push image please use command below:
 This image is aimed to run badoo-liker from docker.
 To build and push image please use command below (<new version here> may be some `0.1.0` version):
 ```bash
-~ docker build --no-cache -t vyahello/badoo-liker:<new version here> . && \
-  docker push vyahello/badoo-liker:<new version here>
+docker build --no-cache -t vyahello/badoo-liker:<new version here> . && \
+docker push vyahello/badoo-liker:<new version here>
 ```
 
 To run `man` of badoo liker via docker, please start command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here>
+docker run --rm vyahello/badoo-liker:<your version here>
 ```
 
 To get latest `.yaml` config file, please start command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here> get-setup > config.yaml
+docker run --rm vyahello/badoo-liker:<your version here> get-setup > config.yaml
 ``` 
 
 To run badoo liker help, please follow command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here> run-liker -h
+docker run --rm vyahello/badoo-liker:<your version here> run-liker -h
 ```
 
 Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
 ```bash
-~ docker-compose up <service> # run some service e.g 'help' or 'scheduler'
-~ docker compose up -d <service>  # run in background
-~ docker logs <service>  # see recent logs
-~ docker compose down  # shutdown badoo runner
+docker-compose up <service> # run some service e.g 'help' or 'scheduler'
+docker compose up -d <service>  # run in background
+docker logs <service>  # see recent logs
+docker compose down  # shutdown badoo runner
 ```
 For instance below is a sample of execution via `docker-compose`:
 ```bash
-~ docker-compose up scheduler
+docker-compose up single-scheduler
+
 Creating network "badoo-liker_default" with the default driver
 Creating selenium-hub ... done
 Creating badoo-liker_chrome-node_1 ... done
@@ -138,7 +140,8 @@ badoo-scheduler | [2019-10-13 14:38:21 INFO] 15 badoo like attempts were success
 badoo-scheduler exited with code 0
 ```
 ```bash
-~ docker-compose down
+docker-compose down
+
 Stopping badoo-liker_chrome-node_1 ... done
 Stopping selenium-hub              ... done
 Removing badoo-scheduler           ... done
@@ -149,7 +152,7 @@ Removing network badoo-liker_default
 
 You can run `infinite scheduler` with command below:
 ```bash
-~ docker-compose up infinite-scheduler
+docker-compose up infinite-scheduler
 ```
 
 Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
@@ -161,7 +164,7 @@ Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) i
 ### Run unittests
 Please execute next command from the root directory of a project
 ```bash
-~ pytest
+pytest
 ```
 
 ### Meta

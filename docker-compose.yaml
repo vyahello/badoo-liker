@@ -2,7 +2,7 @@ version: "3.7"
 
 x-badoo-liker:
   &badoo-liker
-  image: vyahello/badoo-liker:2.2.0
+  image: vyahello/badoo-liker:2.2.1
   volumes:
     - ./:/code
   depends_on:

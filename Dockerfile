@@ -1,5 +1,5 @@
 FROM vyahello/badoo-liker-base:0.3.0
-LABEL version=2.2.0 \
+LABEL version=2.2.1 \
       metadata="The main image for badoo-liker code" \
       maintainer="Volodymyr Yahello <vyahello@gmail.com>"
 WORKDIR "/code"
