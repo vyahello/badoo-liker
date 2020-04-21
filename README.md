@@ -103,17 +103,17 @@ To build and push image please use command below (<new version here> may be some
 
 To run `man` of badoo liker via docker, please start command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here>
+~ docker run --rm vyahello/badoo-liker:<your version here>
 ```
 
 To get latest `.yaml` config file, please start command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here> get-setup > config.yaml
+~ docker run --rm vyahello/badoo-liker:<your version here> get-setup > config.yaml
 ``` 
 
 To run badoo liker help, please follow command below ('your version here' may be some `0.1.0` version):
 ```bash
-~ docker run vyahello/badoo-liker:<your version here> run-liker -h
+~ docker run --rm vyahello/badoo-liker:<your version here> run-liker -h
 ```
 
 Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
@@ -125,7 +125,7 @@ Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker sc
 ```
 For instance below is a sample of execution via `docker-compose`:
 ```bash
-~ docker-compose up scheduler
+~ docker-compose up single-scheduler
 Creating network "badoo-liker_default" with the default driver
 Creating selenium-hub ... done
 Creating badoo-liker_chrome-node_1 ... done
