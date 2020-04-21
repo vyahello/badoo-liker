@@ -58,9 +58,10 @@ function run-liker {
         check-grid-is-ready
 
         if [[ "$1" == "--infinite" ]] || [[ "$1" == "-i" ]]; then
+            shift
             run-infinite-liker $@
         else
-            run-liker $@
+            run-single-liker $@
         fi
 
     fi
