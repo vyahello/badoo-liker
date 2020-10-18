@@ -9,21 +9,28 @@
 
 > This program allows user to set schedule liker for badoo dating service (https://badoo.com).
 >
-> It uses **python** and **selenium (pom)** to emulate user bahaviour. 
+> It uses **python** and **selenium (pom)** to emulate user behaviour. 
 
-**Tools**
-- `python 3.7+`
-- `selenium-grid`
-- `.yaml` config setup
-- `docker (>=18.0)` and `docker-compose (>= 1.22)`
-- `chromedriver`
-- `pytest`
+## Tools
+
+### Production
+- python 3.7+
+- selenium-grid
+- docker (>=18.0)
+- docker-compose (>= 1.22)
+- zalenium
+- chromedriver
+- yaml config setup
+
+### Development
+- pytest
 
 ## Table of contents
 - [Usage](#usage)
+  - [docker](#docker)
   - [Source code](#source-code)
-  - [Docker](#docker)
 - [Development notes](#development-notes)
+  - [Docker build](#docker-build)
   - [Run unittests](#run-unittests)
   - [Meta](#meta)
   - [Contributing](#contributing)
@@ -31,6 +38,51 @@
 ## Usage
 
 ![Demo](demo.gif)
+
+### Docker
+
+Please use official docker `vyahello/badoo-like` image and docker-compose setup for common usage.
+```bash
+docker run --rm vyahello/badoo-liker:2.2.1
+```
+
+It uses [zalenium](https://github.com/zalando/zalenium) so you can check what's going on in the browser via http://localhost:4444/grid/admin/live endpoint.
+
+To get latest `.yaml` config file, please start command below:
+```bash
+docker run --rm vyahello/badoo-liker:2.2.1 get-setup > config.yaml
+``` 
+
+Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
+```bash
+docker-compose up <service> # run some service e.g 'help' or 'single-scheduler'
+docker compose up -d <service>  # run in background
+docker logs <service>  # see recent logs
+docker compose down  # shutdown badoo runner
+```
+
+For instance below is a sample of execution via `docker-compose`:
+```bash
+docker-compose up single-scheduler
+
+Creating network "badoo-liker_default" with the default driver
+Creating selenium-hub ... done
+Creating badoo-liker_chrome-node_1 ... done
+Creating badoo-scheduler           ... done
+Attaching to badoo-scheduler
+badoo-scheduler | Still waiting for the Grid ...
+badoo-scheduler | Still waiting for the Grid ...
+badoo-scheduler | [2019-10-13 14:37:06 INFO] Operating 15 badoo like attempts, in progress ...
+badoo-scheduler | [2019-10-13 14:38:21 INFO] 15 badoo like attempts were successfully completed, please check your messages!
+badoo-scheduler exited with code 0
+```
+
+You can run `infinite scheduler` with command below:
+```bash
+docker-compose up infinite-scheduler
+```
+
+Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
 
 ### Source code
 Before execution please configure badoo config setup file [template-setup.yaml](template-setup.yaml). 
@@ -82,7 +134,12 @@ Please see 'logs.txt' file for additional logs info.
 ```
 **[⬆ back to top](#table-of-contents)**
 
-### Docker
+
+**[⬆ back to top](#table-of-contents)**
+
+## Development notes
+
+### Docker build
 There are two `docker images` to maintain execution via docker: 
 1. **Base image**
 
@@ -101,65 +158,6 @@ To build and push image please use command below (<new version here> may be some
 docker build --no-cache -t vyahello/badoo-liker:<new version here> . && \
 docker push vyahello/badoo-liker:<new version here>
 ```
-
-To run `man` of badoo liker via docker, please start command below ('your version here' may be some `0.1.0` version):
-```bash
-docker run --rm vyahello/badoo-liker:<your version here>
-```
-
-To get latest `.yaml` config file, please start command below ('your version here' may be some `0.1.0` version):
-```bash
-docker run --rm vyahello/badoo-liker:<your version here> get-setup > config.yaml
-``` 
-
-To run badoo liker help, please follow command below ('your version here' may be some `0.1.0` version):
-```bash
-docker run --rm vyahello/badoo-liker:<your version here> run-liker -h
-```
-
-Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
-```bash
-docker-compose up <service> # run some service e.g 'help' or 'scheduler'
-docker compose up -d <service>  # run in background
-docker logs <service>  # see recent logs
-docker compose down  # shutdown badoo runner
-```
-For instance below is a sample of execution via `docker-compose`:
-```bash
-docker-compose up single-scheduler
-
-Creating network "badoo-liker_default" with the default driver
-Creating selenium-hub ... done
-Creating badoo-liker_chrome-node_1 ... done
-Creating badoo-scheduler           ... done
-Attaching to badoo-scheduler
-badoo-scheduler | Still waiting for the Grid ...
-badoo-scheduler | Still waiting for the Grid ...
-badoo-scheduler | [2019-10-13 14:37:06 INFO] Operating 15 badoo like attempts, in progress ...
-badoo-scheduler | [2019-10-13 14:38:21 INFO] 15 badoo like attempts were successfully completed, please check your messages!
-badoo-scheduler exited with code 0
-```
-```bash
-docker-compose down
-
-Stopping badoo-liker_chrome-node_1 ... done
-Stopping selenium-hub              ... done
-Removing badoo-scheduler           ... done
-Removing badoo-liker_chrome-node_1 ... done
-Removing selenium-hub              ... done
-Removing network badoo-liker_default
-```
-
-You can run `infinite scheduler` with command below:
-```bash
-docker-compose up infinite-scheduler
-```
-
-Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) instructions.
-
-**[⬆ back to top](#table-of-contents)**
-
-## Development notes
 
 ### Run unittests
 Please execute next command from the root directory of a project
