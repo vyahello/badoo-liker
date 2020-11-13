@@ -4,6 +4,7 @@
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Docker pulls](https://img.shields.io/docker/pulls/vyahello/badoo-liker.svg)](https://hub.docker.com/repository/docker/vyahello/badoo-liker)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
@@ -42,21 +43,21 @@
 
 Please use official docker `vyahello/badoo-like` image and docker-compose setup for common usage.
 ```bash
-docker run --rm vyahello/badoo-liker:2.2.2
+docker run --rm vyahello/badoo-liker:2.2.3
 ```
 
 It uses [zalenium](https://github.com/zalando/zalenium) so you can check what's going on in the browser via http://localhost:4444/grid/admin/live endpoint.
 
-To get latest `setup.yaml` config file, please start command below:
+To get latest `setup.yaml` config file, please start the command below:
 ```bash
-docker run --rm vyahello/badoo-liker:2.2.2 get-setup > setup.yaml
+docker run --rm vyahello/badoo-liker:2.2.3 get-setup > setup.yaml
 ``` 
 
 > Please make sure `grid-url` is set to `http://localhost:4444/wd/hub`
 
 To get latest `docker-compose.yaml` config file, please start command below:
 ```bash
-docker run --rm vyahello/badoo-liker:2.2.2 get-compose > docker-compose.yaml
+docker run --rm vyahello/badoo-liker:2.2.3 get-compose > docker-compose.yaml
 ``` 
 
 Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:

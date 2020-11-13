@@ -25,13 +25,11 @@ HELP
 
 
 function get-setup {
-  echo "Cloning ${CONFIG} file into ./"
   cat ${CONFIG}
 }
 
 
 function get-compose {
-  echo "Cloning ${COMPOSE} file into ./"
   cat ${COMPOSE}
 }
 
