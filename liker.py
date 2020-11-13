@@ -21,14 +21,21 @@ class _LikerExecutor(_Executor):
     def __init__(self, setup: Setup) -> None:
         self._message_to_send: str = setup.badoo().intro_message()
         self._attempts: int = setup.badoo().likes()
-        self._liker: Liker = BadooLiker(Browser(setup.browser()), setup.badoo().credentials())
+        self._liker: Liker = BadooLiker(
+            Browser(setup.browser()), setup.badoo().credentials()
+        )
 
     def run(self) -> None:
         self._liker.start(self._attempts, self._message_to_send)
 
 
 @click.command()
-@click.option("--config", "-c", help="Setup badoo config file (e.g `setup.yaml`)", default="setup.yaml")
+@click.option(
+    "--config",
+    "-c",
+    help="Setup badoo config file (e.g `setup.yaml`)",
+    default="setup.yaml",
+)
 def _run_badoo_liker(config: str) -> None:
     """The program allows to run badoo liker service."""
     executor: _Executor = _LikerExecutor(Setup(YamlFromPath(config)))

@@ -2,7 +2,8 @@ version: "3.7"
 
 x-badoo-liker:
   &badoo-liker
-  image: vyahello/badoo-liker:2.2.1
+  # Please leave empty tag to get `latest version by default
+  image: vyahello/badoo-liker:2.2.2
   volumes:
     - ./:/code
   depends_on:

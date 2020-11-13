@@ -27,12 +27,11 @@
 
 ## Table of contents
 - [Usage](#usage)
-  - [docker](#docker)
+  - [Docker](#docker)
   - [Source code](#source-code)
 - [Development notes](#development-notes)
   - [Docker build](#docker-build)
-  - [Run unittests](#run-unittests)
-  - [Meta](#meta)
+  - [Testing](#testing)
   - [Contributing](#contributing)
 
 ## Usage
@@ -43,14 +42,21 @@
 
 Please use official docker `vyahello/badoo-like` image and docker-compose setup for common usage.
 ```bash
-docker run --rm vyahello/badoo-liker:2.2.1
+docker run --rm vyahello/badoo-liker:2.2.2
 ```
 
 It uses [zalenium](https://github.com/zalando/zalenium) so you can check what's going on in the browser via http://localhost:4444/grid/admin/live endpoint.
 
-To get latest `.yaml` config file, please start command below:
+To get latest `setup.yaml` config file, please start command below:
 ```bash
-docker run --rm vyahello/badoo-liker:2.2.1 get-setup > config.yaml
+docker run --rm vyahello/badoo-liker:2.2.2 get-setup > setup.yaml
+``` 
+
+> Please make sure `grid-url` is set to `http://localhost:4444/wd/hub`
+
+To get latest `docker-compose.yaml` config file, please start command below:
+```bash
+docker run --rm vyahello/badoo-liker:2.2.2 get-compose > docker-compose.yaml
 ``` 
 
 Please use [docker-compose.yaml](docker-compose.yaml) file to run badoo liker script in docker with:
@@ -61,7 +67,7 @@ docker logs <service>  # see recent logs
 docker compose down  # shutdown badoo runner
 ```
 
-For instance below is a sample of execution via `docker-compose`:
+For instance, below is a sample of execution via `docker-compose`:
 ```bash
 docker-compose up single-scheduler
 
@@ -86,12 +92,15 @@ Please follow [docker-selenium](https://github.com/SeleniumHQ/docker-selenium) i
 
 ### Source code
 Before execution please configure badoo config setup file [template-setup.yaml](template-setup.yaml). 
+
+> Please make sure `grid-url` is set to `http://localhost:9515`
+
 For local execution you have to download [chromedriver](https://chromedriver.chromium.org) (as we support `Chrome only` for now) & run it from the cli:
 ```bash
-~ chromedriver
+chromedriver
 ```
-We use [selenium-grid](https://www.vinsguru.com/selenium-grid-setup-using-docker) to make it compatible with different OS/browsers (in future)
-mostly using `docker-compose.yaml` file.
+
+We use [selenium-grid](https://www.vinsguru.com/selenium-grid-setup-using-docker) to make it compatible with different OS/browsers (in future).
 
 Then just run script from the root directory of the project:
 ```bash
@@ -132,8 +141,6 @@ Please use next commands:
 
 Please see 'logs.txt' file for additional logs info.
 ```
-**[⬆ back to top](#table-of-contents)**
-
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -153,28 +160,24 @@ docker push vyahello/badoo-liker-base:<new version here>
 2. **Main image**
 
 This image is aimed to run badoo-liker from docker.
-To build and push image please use command below (<new version here> may be some `0.1.0` version):
+To build and push image please use the command below (<new version here> may be some `0.1.0` version):
 ```bash
 docker build --no-cache -t vyahello/badoo-liker:<new version here> . && \
 docker push vyahello/badoo-liker:<new version here>
 ```
 
-### Run unittests
-Please execute next command from the root directory of a project
+### Testing
+Please execute the next command from the root directory of a project:
 ```bash
 pytest
 ```
 
-### Meta
-Author – Volodymyr Yahello
-
-You can reach out me at:
-* [vyahello@gmail.com](vyahello@gmail.com)
-* [https://github.com/vyahello](https://github.com/vyahello)
-* [https://www.linkedin.com/in/volodymyr-yahello-821746127](https://www.linkedin.com/in/volodymyr-yahello-821746127)
-
 ### Contributing
-1. clone the repository
-2. configure Git for the first time after cloning with your `name` and `email`
+1. Clone the repository
+2. Configure `git` for the first time after cloning with your `name` and `email`
 3. `pip install -r requirements.txt` to install all project dependencies
-4. `pip install -r requirements-dev.txt` to install all development dependencies
+4. `pip install -r requirements-dev.txt` to install all development project dependencies
+5. Create your feature branch (`git checkout -b feature/fooBar`)
+6. Commit your changes (`git commit -am 'Add some fooBar'`)
+7. Push to the branch (`git push origin feature/fooBar`)
+8. Create a new Pull Request
