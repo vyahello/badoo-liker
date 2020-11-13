@@ -11,7 +11,12 @@ class Element(ABC):
     """Represents abstract interface for an element."""
 
     @abstractmethod
-    def set(self, value: Union[int, str], clear: bool = False, delay_in_seconds: int = None) -> None:
+    def set(
+        self,
+        value: Union[int, str],
+        clear: bool = False,
+        delay_in_seconds: int = None,
+    ) -> None:
         """Set value for element."""
         pass
 
@@ -110,7 +115,12 @@ class WebElement(Element):
         self._context = context
         self._locator: Tuple[str, str] = (strategy, locator)
 
-    def set(self, value: Union[int, str], clear: bool = False, delay_in_seconds: int = None) -> None:
+    def set(
+        self,
+        value: Union[int, str],
+        clear: bool = False,
+        delay_in_seconds: int = None,
+    ) -> None:
         """Set value for element."""
         if clear:
             self.wait_for_visibility()._element().clear()
@@ -129,17 +139,23 @@ class WebElement(Element):
 
     def wait_for_disappear(self, timeout: int = 30) -> "WebElement":
         """Wait for element to disappear."""
-        Wait(self._context, timeout=timeout).for_element_to_disappear(self._locator)
+        Wait(self._context, timeout=timeout).for_element_to_disappear(
+            self._locator
+        )
         return self
 
     def wait_for_visibility(self, timeout: int = 30) -> "WebElement":
         """Wait for element to be visible."""
-        Wait(self._context, timeout=timeout).for_element_to_be_visible(self._locator)
+        Wait(self._context, timeout=timeout).for_element_to_be_visible(
+            self._locator
+        )
         return self
 
     def wait_to_be_clickable(self, timeout: int = 30) -> "WebElement":
         """Wait for element to be clickable."""
-        Wait(self._context, timeout=timeout).for_element_to_be_clickable(self._locator)
+        Wait(self._context, timeout=timeout).for_element_to_be_clickable(
+            self._locator
+        )
         return self
 
     @classmethod

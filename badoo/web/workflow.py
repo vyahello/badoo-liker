@@ -3,7 +3,14 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from badoo.connections.web import Browser
 from badoo.setup import Credentials
 from badoo.web.support.element import WebElement, Element
-from badoo.web.support.page import LoginPage, Url, open_url, Page, LoginPath, open_url_with_automatic_login
+from badoo.web.support.page import (
+    LoginPage,
+    Url,
+    open_url,
+    Page,
+    LoginPath,
+    open_url_with_automatic_login,
+)
 
 
 class BadooError(Exception):
@@ -36,12 +43,18 @@ class BadooLoginPage(LoginPage):
 
     def login(self, username: str, password: str) -> None:
         WebElement.find(self._browser).by_class("js-signin-login").set(username)
-        WebElement.find(self._browser).by_class("js-signin-password").set(password)
+        WebElement.find(self._browser).by_class("js-signin-password").set(
+            password
+        )
         WebElement.find(self._browser).by_css("button[type='submit']").click()
 
     def is_login_failed(self) -> bool:
         try:
-            return WebElement.find(self._browser).by_class("new-form__error").is_displayed()
+            return (
+                WebElement.find(self._browser)
+                .by_class("new-form__error")
+                .is_displayed()
+            )
         except NoSuchElementException:
             return False
 
@@ -55,17 +68,25 @@ class BadooEncountersPage(Page):
         self._login: LoginPath = LoginPath(BadooLoginPage(browser), credentials)
 
     def open(self) -> None:
-        open_url_with_automatic_login(self._browser, self._url, self.loaded, self._login)
+        open_url_with_automatic_login(
+            self._browser, self._url, self.loaded, self._login
+        )
 
     def loaded(self) -> bool:
         return str(self._url) in self._browser.current_url
 
     def like(self) -> None:
-        WebElement.find(self._browser).by_class("profile-action--color-yes").click()
+        WebElement.find(self._browser).by_class(
+            "profile-action--color-yes"
+        ).click()
 
         try:
-            WebElement.find(self._browser).by_class("js-chrome-pushes-deny").wait_for_visibility(2).click()
-            WebElement.find(self._browser).by_class("ovl__content").wait_for_disappear(5)
+            WebElement.find(self._browser).by_class(
+                "js-chrome-pushes-deny"
+            ).wait_for_visibility(2).click()
+            WebElement.find(self._browser).by_class(
+                "ovl__content"
+            ).wait_for_disappear(5)
         except TimeoutException:
             pass
 
@@ -80,14 +101,23 @@ class BadooEncountersPage(Page):
             return False
 
     def send_message(self, message: str) -> None:
-        WebElement.find(self._browser).by_class("js-message").set(message, clear=True)
+        WebElement.find(self._browser).by_class("js-message").set(
+            message, clear=True
+        )
         WebElement.find(self._browser).by_class("js-send-message").click()
         self._match().wait_for_disappear(2)
-        WebElement.find(self._browser).by_class("confirmation").wait_for_disappear(2)
+        WebElement.find(self._browser).by_class(
+            "confirmation"
+        ).wait_for_disappear(2)
 
     def _is_blocker_visible(self) -> bool:
         try:
-            return WebElement.find(self._browser).by_class("ovl").wait_for_visibility(1).is_displayed()
+            return (
+                WebElement.find(self._browser)
+                .by_class("ovl")
+                .wait_for_visibility(1)
+                .is_displayed()
+            )
         except TimeoutException:
             return False
 
@@ -96,6 +126,11 @@ class BadooEncountersPage(Page):
 
     def _is_out_of_votes(self) -> bool:
         try:
-            return WebElement.find(self._browser).by_class("ovl__hint").wait_for_visibility(1).is_displayed()
+            return (
+                WebElement.find(self._browser)
+                .by_class("ovl__hint")
+                .wait_for_visibility(1)
+                .is_displayed()
+            )
         except TimeoutException:
             return False

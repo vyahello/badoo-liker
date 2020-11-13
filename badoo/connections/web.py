@@ -26,7 +26,8 @@ class BrowserSettings(ABC):
 class Browser:
     """The class is a proxy for ``Remote`` object.
 
-    It has the same interface that ``Remote`` object from ``selenium.webdriver`` module has.
+    It has the same interface that ``Remote`` object
+    from ``selenium.webdriver`` module has.
     """
 
     def __init__(self, settings: BrowserSettings) -> None:

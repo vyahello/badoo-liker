@@ -15,7 +15,9 @@ _logger: Logger = MainLogger(__name__)
 class Url:
     """The class represents an URL to a page."""
 
-    def __init__(self, host: str, path: str = "", protocol: str = "https") -> None:
+    def __init__(
+        self, host: str, path: str = "", protocol: str = "https"
+    ) -> None:
         self._host = host
         self._path = path
         self._protocol = protocol
@@ -43,7 +45,8 @@ class Page(ABC):
 
 
 def _is_page_not_reachable(browser: Browser) -> bool:
-    """Returns `True` if web page is not reachable due to networking issue otherwise `False`.
+    """Returns `True` if web page is not reachable due to
+    networking issue otherwise `False`.
 
     Args:
         browser: a current browser session
@@ -59,7 +62,9 @@ def open_url(browser: Browser, url: Url, timeout: int = 30) -> None:
     _logger.debug("Open URL: %s", url)
     browser.get(str(url))
     if _is_page_not_reachable(browser):
-        raise RuntimeError(f"WEB page '{url}' is not reachable due to networking issue!")
+        raise RuntimeError(
+            f"WEB page '{url}' is not reachable due to networking issue!"
+        )
     Wait(browser, timeout=timeout).for_url(url.matcher())
 
 
@@ -78,7 +83,8 @@ class LoginPage(Page):
 
 
 class LoginPageError(Exception):
-    """The class represents an error that occurs during login procedure via WEB UI."""
+    """The class represents an error that occurs during login
+    procedure via WEB UI."""
 
     pass
 
@@ -98,10 +104,15 @@ class LoginPath:
             if self._page.loaded():
                 if self._page.is_login_failed():
                     raise RuntimeError(
-                        f"Unable to login using {self._page.__class__.__name__} with {self._credentials}."
+                        f"Unable to login using {self._page.__class__.__name__}"
+                        f" with {self._credentials}."
                     )
                 time.sleep(1)
-                _logger.debug("Login process still in progress. Waiting time is %s second(s)", iteration)
+                _logger.debug(
+                    "Login process still in progress. "
+                    "Waiting time is %s second(s)",
+                    iteration,
+                )
                 continue
             break
         else:
@@ -112,11 +123,15 @@ class LoginPath:
 
 
 def open_url_with_automatic_login(
-    browser: Browser, url: Url, is_url_loaded: Callable[[], bool], path: LoginPath
+    browser: Browser,
+    url: Url,
+    is_url_loaded: Callable[[], bool],
+    path: LoginPath,
 ) -> None:
     """Open a given URL in the browser and perform login if required.
 
-    The login action will be executed if the initial URL won't be loaded successfully.
+    The login action will be executed if the initial URL
+    won't be loaded successfully.
     """
     if not is_url_loaded():
         try:

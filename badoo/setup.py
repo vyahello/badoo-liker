@@ -11,7 +11,8 @@ class Credentials:
         self._password: str = password
 
     def __str__(self):
-        return f'{self.__class__.__name__}[user = "{self.username}"; pass = "{self.password}]"'
+        return f'{self.__class__.__name__}' \
+               f'[user = "{self.username}"; pass = "{self.password}]"'
 
     @property
     def username(self) -> str:
@@ -44,7 +45,10 @@ class _Badoo:
         self._data: Dict[str, Any] = data
 
     def credentials(self) -> Credentials:
-        return Credentials(self._data["credentials"]["login"], self._data["credentials"]["password"])
+        return Credentials(
+            self._data["credentials"]["login"],
+            self._data["credentials"]["password"],
+        )
 
     def likes(self) -> int:
         return self._data["likes"]
