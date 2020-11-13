@@ -3,9 +3,10 @@ version: "3.7"
 x-badoo-liker:
   &badoo-liker
   # Please leave empty tag to get `latest version by default
-  image: vyahello/badoo-liker:2.2.2
+  image: vyahello/badoo-liker:2.2.3
   volumes:
-    - ./:/code
+    - ./setup.yaml:/code/setup.yaml
+    - ./docker-compose.yaml:/code/docker-compose.yaml
   depends_on:
     - chrome-node
   network_mode: host

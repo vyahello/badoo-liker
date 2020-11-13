@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMAGE_REPO="vyahello/badoo-liker"
-IMAGE_VERSION="2.2.2"
+IMAGE_VERSION="2.2.3"
 CONFIG="template-setup.yaml"
 COMPOSE="docker-compose.yaml"
 DELAY_BETWEEN_RUN=1800
@@ -25,11 +25,13 @@ HELP
 
 
 function get-setup {
+  echo "Cloning ${CONFIG} file into ./"
   cat ${CONFIG}
 }
 
 
 function get-compose {
+  echo "Cloning ${COMPOSE} file into ./"
   cat ${COMPOSE}
 }
 
